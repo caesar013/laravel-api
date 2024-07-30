@@ -38,7 +38,11 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         //
-        return new ProjectResource($project);
+        if ($project) {
+            # code...
+            return new ProjectResource($project);
+        }
+        return response()->json(['message' => 'Project not found'], 404);
     }
 
     /**
@@ -47,9 +51,13 @@ class ProjectController extends Controller
     public function update(UpdateProjectRequest $request, Project $project)
     {
         //
-        $project->update($request->validated());
+        if ($project) {
+            # code...
+            $project->update($request->validated());
 
-        return new ProjectResource($project);
+            return new ProjectResource($project);
+        }
+        return response()->json(['message' => 'Project not found'], 404);
     }
 
     /**
@@ -58,5 +66,12 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         //
+        if ($project) {
+            # code...
+            $project->delete();
+
+            return response()->json(['message' => 'Project deleted successfully'], 200);
+        }
+        return response()->json(['message' => 'Project not found'], 404);
     }
 }
