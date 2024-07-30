@@ -42,19 +42,14 @@ class ProjectController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Project $project)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
         //
+        $project->update($request->validated());
+
+        return new ProjectResource($project);
     }
 
     /**
