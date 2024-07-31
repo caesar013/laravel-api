@@ -20,7 +20,7 @@ class TaskFactory extends Factory
             //
             'name' => $this->faker->word(2),
             'description' => $this->faker->text(),
-            'completed' => rand(0, 1),
+            'is_completed' => rand(0, 1),
             'project_id' => rand(1, 5),
             'user_id' => rand(1, 5),
         ];
