@@ -44,11 +44,8 @@ class UserController extends Controller
     public function show(User $user)
     {
         //
-        if ($user) {
-            # code...
-            return UserResource::make($user);
-        }
-        return response()->json(['message' => 'User not found'], 404);
+        # code...
+        return UserResource::make($user);
     }
 
     /**
@@ -57,14 +54,11 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         //
-        if ($user) {
-            # code...
-            $user->update($request->validated());
-            $user->save();
+        # code...
+        $user->update($request->validated());
+        $user->save();
 
-            return UserResource::make($user);
-        }
-        return response()->json(['message' => 'User not found'], 404);
+        return UserResource::make($user);
     }
 
     /**
@@ -73,11 +67,8 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
-        if ($user) {
-            # code...
-            $user->delete();
-            return response()->json(['message' => 'User deleted successfully'], 200);
-        }
-        return response()->json(['message' => 'User not found'], 404);
+        # code...
+        $user->delete();
+        return response()->json(['message' => 'User deleted successfully'], 200);
     }
 }

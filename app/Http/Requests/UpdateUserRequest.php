@@ -26,6 +26,14 @@ class UpdateUserRequest extends FormRequest
             //
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email,' . $this->user->id,
+            'password' => 'sometimes|string|min:6',
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        if ($this->password == null) {
+            $this->request->remove('password');
+        }
     }
 }
