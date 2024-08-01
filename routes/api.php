@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResource('/projects', ProjectController::class);
 Route::apiResource('/tasks', TaskController::class);
-Route::apiResource('/users', UserController::class);
+Route::apiResource('/users', UserController::class)->except('store');
 Route::post('/users/{user}/photo-profile', UserAvatarController::class);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);

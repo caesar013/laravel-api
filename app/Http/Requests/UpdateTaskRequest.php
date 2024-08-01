@@ -27,7 +27,6 @@ class UpdateTaskRequest extends FormRequest
             'description' => 'required|string',
             'is_completed' => 'required|boolean',
             'project_id' => 'required|exists:projects,id',
-            'user_id' => 'required|exists:users,id',
         ];
     }
 }

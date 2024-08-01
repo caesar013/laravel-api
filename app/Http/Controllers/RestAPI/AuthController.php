@@ -62,19 +62,4 @@ class AuthController extends Controller
             'message' => 'Successfully logged out'
         ]);
     }
-
-    public function refresh()
-    {
-        return $this->respondWithToken(Auth::refresh());
-    }
-
-    private function respondWithToken($token)
-    {
-        // implementation of the method
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => Auth::factory()->getTTL() * 60,
-        ]);
-    }
 }

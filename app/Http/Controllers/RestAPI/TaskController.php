@@ -7,9 +7,20 @@ use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Gate;
 
-class TaskController extends Controller
+class TaskController extends Controller implements HasMiddleware
 {
+
+    public static function middleware()
+    {
+        return [
+            new Middleware('auth:sanctum', ['except' => ['index', 'show']])
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -25,9 +36,7 @@ class TaskController extends Controller
     public function store(StoreTaskRequest $request)
     {
         //
-        $task = new Task();
-        $task->fill($request->validated());
-        $task->save();
+        $task = $request->user()->tasks()->create($request->validated());
 
         if ($task) {
             # code...
@@ -55,6 +64,8 @@ class TaskController extends Controller
     public function update(UpdateTaskRequest $request, Task $task)
     {
         //
+        Gate::authorize('modify', $task);
+
         if ($task) {
             # code...
             $task->update($request->validated());
@@ -70,6 +81,8 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         //
+        Gate::authorize('modify', $task);
+
         if ($task) {
             # code...
             $task->delete();

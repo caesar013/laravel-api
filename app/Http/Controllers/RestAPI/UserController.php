@@ -7,10 +7,21 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
-class UserController extends Controller
+class UserController extends Controller implements HasMiddleware
 {
+
+    public static function middleware()
+    {
+        return [
+            new Middleware('auth:sanctum', ['except' => ['index', 'show']])
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -18,24 +29,6 @@ class UserController extends Controller
     {
         //
         return UserResource::collection(User::all());
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreUserRequest $request)
-    {
-        //
-        $user = new User();
-        // fill the user with the validated data except the password
-        $user->fill($request->validated());
-        $user->save();
-
-        if ($user) {
-            # code...
-            return new UserResource($user);
-        }
-        return response()->json(['message' => 'User creation failed'], 500);
     }
 
     /**
@@ -55,6 +48,8 @@ class UserController extends Controller
     {
         //
         # code...
+        Gate::authorize('modify', $user);
+
         $user->update($request->validated());
         $user->save();
 
@@ -68,6 +63,8 @@ class UserController extends Controller
     {
         //
         # code...
+        Gate::authorize('modify', $user);
+        
         $user->delete();
         return response()->json(['message' => 'User deleted successfully'], 200);
     }
