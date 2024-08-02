@@ -38,11 +38,7 @@ class TaskController extends Controller implements HasMiddleware
         //
         $task = $request->user()->tasks()->create($request->validated());
 
-        if ($task) {
-            # code...
-            return new TaskResource($task);
-        }
-        return response()->json(['message' => 'Task creation failed'], 500);
+        return new TaskResource($task);
     }
 
     /**
@@ -51,11 +47,8 @@ class TaskController extends Controller implements HasMiddleware
     public function show(Task $task)
     {
         //
-        if ($task) {
-            # code...
-            return TaskResource::make($task);
-        }
-        return response()->json(['message' => 'Task not found'], 404);
+        # code...
+        return TaskResource::make($task);
     }
 
     /**
@@ -66,13 +59,10 @@ class TaskController extends Controller implements HasMiddleware
         //
         Gate::authorize('modify', $task);
 
-        if ($task) {
-            # code...
-            $task->update($request->validated());
+        # code...
+        $task->update($request->validated());
 
-            return TaskResource::make($task);
-        }
-        return response()->json(['message' => 'Task not found'], 404);
+        return TaskResource::make($task);
     }
 
     /**
@@ -83,12 +73,9 @@ class TaskController extends Controller implements HasMiddleware
         //
         Gate::authorize('modify', $task);
 
-        if ($task) {
-            # code...
-            $task->delete();
+        # code...
+        $task->delete();
 
-            return response()->json(['message' => 'Task deleted successfully'], 200);
-        }
-        return response()->json(['message' => 'Task not found'], 404);
+        return response()->json(['message' => 'Task deleted successfully'], 200);
     }
 }

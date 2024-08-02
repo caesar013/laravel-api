@@ -37,7 +37,6 @@ class UserController extends Controller implements HasMiddleware
     public function show(User $user)
     {
         //
-        # code...
         return UserResource::make($user);
     }
 
@@ -47,7 +46,6 @@ class UserController extends Controller implements HasMiddleware
     public function update(UpdateUserRequest $request, User $user)
     {
         //
-        # code...
         Gate::authorize('modify', $user);
 
         $user->update($request->validated());
@@ -62,9 +60,8 @@ class UserController extends Controller implements HasMiddleware
     public function destroy(User $user)
     {
         //
-        # code...
         Gate::authorize('modify', $user);
-        
+
         $user->delete();
         return response()->json(['message' => 'User deleted successfully'], 200);
     }
